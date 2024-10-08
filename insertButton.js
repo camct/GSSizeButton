@@ -1,4 +1,5 @@
 Ecwid.OnAPILoaded.add(function() {
+    console.log('ecwid api loaded')
     Ecwid.OnPageLoaded.add(function(page) {
         console.log('Page type is', page.type, "!!!");
         if (page.type === 'PRODUCT') {

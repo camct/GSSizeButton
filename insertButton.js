@@ -23,11 +23,12 @@ Ecwid.OnAPILoaded.add(function() {
 
             // Insert the link into the DOM
             const placeholder = document.querySelector('.product-details-module.details-product-option.details-product-option--textfield.details-product-option--Length-0028cm-or-inches0029');
-            if (placeholder) {
-                placeholder.appendChild(link);
+            const lengthInputDiv = placeholder.querySelector('.product-details-module__title');
+            if (lengthInputDiv) {
+                lengthInputDiv.appendChild(link);
                 console.log('Link inserted');
             } else {
-                console.error('Button placeholder not found');
+                console.error('Length input div not found');
             }
         }
     });

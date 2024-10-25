@@ -3,40 +3,40 @@ Ecwid.OnAPILoaded.add(function() {
 
     // Insert CSS styles
     const styles = `
-        .sizing-button {
-            display: inline-block;
-            padding: 6px 12px;
-            width: 120px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-            cursor: pointer;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            line-height: 1.2;
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            text-align: center;
+        .length-sizing-button {
+            display: inline-block !important;
+            padding: 6px 12px !important;
+            width: 120px !important;
+            background-color: #4CAF50 !important;
+            color: white !important;
+            border-radius: 4px !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            font-family: Arial, sans-serif !important;
+            font-size: 12px !important;
+            font-weight: bold !important;
+            line-height: 1.2 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+            text-align: center !important;
         }
-        .sizing-button:hover {
-            background-color: #45a049;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transform: translateY(-1px);
+        .length-sizing-button:hover {
+            background-color: #45a049 !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3) !important;
+            transform: translateY(-1px) !important;
         }
         @media (max-width: 768px) {
-            .sizing-button {
-                width: 100px;
-                font-size: 10px;
-                padding: 5px 10px;
+            .length-sizing-button {
+                width: 100px !important;
+                font-size: 10px !important;
+                padding: 5px 10px !important;
             }
         }
         @media (max-width: 480px) {
-            .sizing-button {
-                width: 80px;
-                font-size: 9px;
-                padding: 4px 8px;
+            .length-sizing-button {
+                width: 80px !important;
+                font-size: 9px !important;
+                padding: 4px 8px !important;
             }
         }
     `;
@@ -64,7 +64,7 @@ Ecwid.OnAPILoaded.add(function() {
             link.target = '_blank';
 
             // Add the class to the link
-            link.className = 'sizing-button';
+            link.className = 'length-sizing-button';
 
             // Insert the link into the DOM
             const placeholder = document.querySelector('.product-details-module.details-product-option.details-product-option--textfield.details-product-option--Length-0028cm-or-inches0029');

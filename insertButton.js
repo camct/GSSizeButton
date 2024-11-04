@@ -6,7 +6,8 @@ Ecwid.OnAPILoaded.add(function() {
         .length-sizing-button {
             display: inline-block !important;
             padding: 6px 12px !important;
-            width: 120px !important;
+            width: 70% !important;
+            margin-left: 15% !important;  /* This centers the button by adding 15% margin on each side */
             background-color: #4CAF50 !important;
             color: white !important;
             border-radius: 4px !important;
@@ -60,14 +61,14 @@ Ecwid.OnAPILoaded.add(function() {
 
             link.href = 'https://www.grasssticks.com/skipolelengthcalc/';
 
-            // Set the link to open in a new tab
-            link.target = '_blank';
+            // // Set the link to open in a new tab
+            // link.target = '_blank';
 
             // Add the class to the link
             link.className = 'length-sizing-button';
 
             // Insert the link into the DOM
-            const placeholder = document.querySelector('.product-details-module.details-product-option.details-product-option--textfield.details-product-option--Length-0028cm-or-inches0029');
+            const placeholder = document.querySelector('.details-product-option--Length-0028cm-or-inches0029');
             const lengthInputDiv = placeholder.querySelector('.product-details-module__title');
             if (lengthInputDiv) {
                 lengthInputDiv.appendChild(link);

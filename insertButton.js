@@ -62,7 +62,7 @@ Ecwid.OnAPILoaded.add(function() {
             link.href = 'https://www.grasssticks.com/skipolelengthcalc/';
 
             // // Set the link to open in a new tab
-            // link.target = '_blank';
+            link.target = '_blank';
 
             // Add the class to the link
             link.className = 'length-sizing-button';

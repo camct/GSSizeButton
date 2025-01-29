@@ -6,8 +6,8 @@ Ecwid.OnAPILoaded.add(function() {
         .length-sizing-button {
             display: inline-block !important;
             padding: 6px 12px !important;
-            width: 70% !important;
-            margin-left: 15% !important;  /* This centers the button by adding 15% margin on each side */
+            width: auto !important;
+            margin-left: 10px !important;
             background-color: #4CAF50 !important;
             color: white !important;
             border-radius: 4px !important;
@@ -46,6 +46,36 @@ Ecwid.OnAPILoaded.add(function() {
     styleElement.textContent = styles;
     document.head.appendChild(styleElement);
 
+    // Function to insert the button
+    function insertButton() {
+        const placeholder = document.querySelector('.details-product-option--Length-0028cm-or-inches0029');
+        if (!placeholder) {
+            console.log('Placeholder not found, waiting...');
+            setTimeout(insertButton, 500);
+            return;
+        }
+
+        const lengthInputDiv = placeholder.querySelector('.product-details-module__title');
+        if (lengthInputDiv) {
+            // Remove any existing sizing buttons first
+            const existingButton = lengthInputDiv.querySelector('.length-sizing-button');
+            if (existingButton) {
+                existingButton.remove();
+            }
+
+            const link = document.createElement('a');
+            link.textContent = 'Click for sizing';
+            link.href = 'https://www.grasssticks.com/skipolelengthcalc/';
+            link.target = '_blank';
+            link.className = 'length-sizing-button';
+            lengthInputDiv.appendChild(link);
+            console.log('Link inserted');
+        } else {
+            console.error('Length input div not found');
+        }
+    }
+
+    // Handle page loads
     Ecwid.OnPageLoaded.add(function(page) {
         console.log('Page type is', page.type, "!!!");
         if (page.type === 'PRODUCT') {
@@ -55,27 +85,22 @@ Ecwid.OnAPILoaded.add(function() {
             // Check if the current product ID is in the allowed list
             if (!productIds.includes(page.productId)) {return;}
             
-            const link = document.createElement('a');
+            insertButton();
+        }
+    });
 
-            link.textContent = 'Click for sizing';
-
-            link.href = 'https://www.grasssticks.com/skipolelengthcalc/';
-
-            // // Set the link to open in a new tab
-            link.target = '_blank';
-
-            // Add the class to the link
-            link.className = 'length-sizing-button';
-
-            // Insert the link into the DOM
-            const placeholder = document.querySelector('.details-product-option--Length-0028cm-or-inches0029');
-            const lengthInputDiv = placeholder.querySelector('.product-details-module__title');
-            if (lengthInputDiv) {
-                lengthInputDiv.appendChild(link);
-                console.log('Link inserted');
-            } else {
-                console.error('Length input div not found');
+    // Handle URL changes
+    let lastUrl = location.href; 
+    const observer = new MutationObserver(() => {
+        const url = location.href;
+        if (url !== lastUrl) {
+            lastUrl = url;
+            if (url.includes('#!/')) {
+                setTimeout(insertButton, 500);
             }
         }
     });
+
+    // Start observing
+    observer.observe(document, {subtree: true, childList: true});
 });

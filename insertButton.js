@@ -80,7 +80,7 @@ Ecwid.OnAPILoaded.add(function() {
         console.log('Page type is', page.type, "!!!");
         if (page.type === 'PRODUCT') {
             console.log(page.productId);
-            var productIds = [55001151, 74102380, 506210440, 570262509, 94782479];
+            var productIds = [793363376, 793363171, 793364072, 793364070, 793363373, 55001151, 74102380, 506210440, 570262509, 94782479];
   
             // Check if the current product ID is in the allowed list
             if (!productIds.includes(page.productId)) {return;}

@@ -46,14 +46,41 @@ Ecwid.OnAPILoaded.add(function() {
     styleElement.textContent = styles;
     document.head.appendChild(styleElement);
 
+    // Allowed product IDs
+    const productIds = [793363376, 793363171, 793364072, 793364070, 793363373, 55001151, 74102380, 506210440, 570262509, 94782479];
+    
+    // Track timeout ID for retry loop
+    let retryTimeoutId = null;
+
+    // Function to clear any active retry timeout
+    function clearRetryTimeout() {
+        if (retryTimeoutId !== null) {
+            clearTimeout(retryTimeoutId);
+            retryTimeoutId = null;
+        }
+    }
+
     // Function to insert the button
     function insertButton() {
+        // Check if we're on a valid product page first (guard clause)
+        const currentPage = Ecwid.getCurrentPage();
+        if (currentPage.type !== 'PRODUCT' || !productIds.includes(currentPage.productId)) {
+            // Not on a valid product page, clear any retry and exit
+            clearRetryTimeout();
+            return;
+        }
+
         const placeholder = document.querySelector('.details-product-option--Length-0028cm-or-inches0029');
         if (!placeholder) {
             console.log('Placeholder not found, waiting...');
-            setTimeout(insertButton, 500);
+            // Clear any existing timeout before setting a new one
+            clearRetryTimeout();
+            retryTimeoutId = setTimeout(insertButton, 500);
             return;
         }
+
+        // Clear timeout since we found the placeholder
+        clearRetryTimeout();
 
         const lengthInputDiv = placeholder.querySelector('.product-details-module__title');
         if (lengthInputDiv) {
@@ -78,12 +105,17 @@ Ecwid.OnAPILoaded.add(function() {
     // Handle page loads
     Ecwid.OnPageLoaded.add(function(page) {
         console.log('Page type is', page.type, "!!!");
+        
+        // Clear any existing retry timeout when page changes
+        clearRetryTimeout();
+        
         if (page.type === 'PRODUCT') {
             console.log(page.productId);
-            var productIds = [793363376, 793363171, 793364072, 793364070, 793363373, 55001151, 74102380, 506210440, 570262509, 94782479];
   
             // Check if the current product ID is in the allowed list
-            if (!productIds.includes(page.productId)) {return;}
+            if (!productIds.includes(page.productId)) {
+                return;
+            }
             
             insertButton();
         }
@@ -95,8 +127,20 @@ Ecwid.OnAPILoaded.add(function() {
         const url = location.href;
         if (url !== lastUrl) {
             lastUrl = url;
+            
+            // Clear any existing retry timeout when URL changes
+            clearRetryTimeout();
+            
+            // Only proceed if URL suggests a product page and validate product ID
             if (url.includes('#!/')) {
-                setTimeout(insertButton, 500);
+                // Use a small delay to allow Ecwid to update current page info
+                setTimeout(function() {
+                    const currentPage = Ecwid.getCurrentPage();
+                    // Only call insertButton if we're on a valid product page
+                    if (currentPage.type === 'PRODUCT' && productIds.includes(currentPage.productId)) {
+                        insertButton();
+                    }
+                }, 500);
             }
         }
     });
